@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Dashboard</title>
+  <style>
+    /* ======== RESET STYLES ======== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #f5f6fa;
+      color: #333;
+    }
+
+    /* ======== HEADER ======== */
+    header {
+      background: #003366;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .admin-profile img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .admin-profile button {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* ======== LAYOUT ======== */
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    /* ======== SIDEBAR ======== */
+    nav {
+      width: 230px;
+      background: #002244;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background: #004080;
+    }
+
+    /* ======== MAIN CONTENT ======== */
+    main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #003366;
+    }
+
+    /* ======== OVERVIEW CARDS ======== */
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-weight: bold;
+    }
+
+    /* ======== TABLE ======== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin-top: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f1f1;
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    /* ======== CLUBS & ACTIVITIES ======== */
+    .club-list, .activity-feed {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .club-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .club-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ======== FOOTER ======== */
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======== HEADER ======== -->
+  <header>
+    <h1>National Institute of Technology - University Dashboard</h1>
+    <div class="admin-profile">
+      <img src="https://via.placeholder.com/45" alt="Admin">
+      <span>Head Admin: Dr. Rajesh Kumar</span>
+      <button onclick="alert('Logging out...')">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- ======== SIDEBAR ======== -->
+    <nav>
+      <a href="#" class="active" onclick="showDashboard()">Dashboard</a>
+      <a href="#" onclick="showStudents()">Students</a>
+      <a href="#" onclick="showClubs()">Clubs & Activities</a>
+      <a href="#" onclick="showDepartments()">Departments</a>
+      <a href="#" onclick="showReports()">Reports</a>
+      <a href="#" onclick="showSettings()">Profile Settings</a>
+    </nav>
+
+    <!-- ======== MAIN CONTENT ======== -->
+    <main id="mainContent">
+      <!-- Default view will load here -->
+    </main>
+  </div>
+
+  <!-- ======== FOOTER ======== -->
+  <footer>
+    © 2025 National Institute of Technology - All Rights Reserved
+  </footer>
+
+  <script>
+    /* ======== DUMMY DATA ======== */
+    const students = [
+      { name: "John Doe", roll: "CS101", department: "Computer Science", year: "2nd Year", status: "Verified" },
+      { name: "Jane Smith", roll: "ME205", department: "Mechanical", year: "3rd Year", status: "Pending" },
+      { name: "Rahul Kumar", roll: "EC301", department: "Electronics", year: "1st Year", status: "Verified" },
+      { name: "Priya Sharma", roll: "CS104", department: "Computer Science", year: "4th Year", status: "Verified" },
+    ];
+
+    const clubs = [
+      { name: "Robotics Club", members: 42 },
+      { name: "Drama Club", members: 30 },
+      { name: "Photography Club", members: 25 },
+      { name: "Sports Club", members: 55 },
+    ];
+
+    const activities = [
+      "John Doe joined Robotics Club",
+      "Drama Club conducted annual fest",
+      "Sports Club hosted Inter-College Tournament",
+      "Photography Club uploaded 50 new photos",
+    ];
+
+    /* ======== FUNCTIONS ======== */
+   
+
+
+function showStudents() {
+  // Mark current tab active
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // ===== Generate 4000 Dummy Students =====
+  const departments = ["Computer Science", "Mechanical Engineering", "Electrical Engineering", "Electronics", "Civil Engineering"];
+  const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+  const statuses = ["Verified", "Pending"];
+
+  const students = [];
+
+  for (let i = 1; i <= 4000; i++) {
+    const name = `Student ${i}`;
+    const roll = `UNI${String(i).padStart(4, '0')}`;
+    const dept = departments[Math.floor(Math.random() * departments.length)];
+    const year = years[Math.floor(Math.random() * years.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+
+    // Random documents
+    const documents = [
+      "Marksheet.pdf",
+      "ID_Card.pdf",
+      "Fee_Receipt.pdf",
+      "Hostel_Receipt.pdf",
+      "Admission_Letter.pdf"
+    ];
+    const docCount = Math.floor(Math.random() * documents.length) + 1;
+    const randomDocs = documents.sort(() => 0.5 - Math.random()).slice(0, docCount);
+
+    students.push({
+      name,
+      roll,
+      department: dept,
+      year,
+      status,
+      documents: randomDocs
+    });
+  }
+
+  // ===== Create Table Rows =====
+  const tableRows = students.map(s => `
+    <tr>
+      <td>${s.name}</td>
+      <td>${s.roll}</td>
+      <td>${s.department}</td>
+      <td>${s.year}</td>
+      <td style="font-weight:bold; color:${s.status === 'Verified' ? '#28a745' : '#ff9800'};">
+        ${s.status}
+      </td>
+      <td>
+        <button onclick="viewDocuments('${s.name}', ${JSON.stringify(s.documents)})" 
+          style="background:#003366; color:white; padding:5px 10px; border:none; border-radius:5px; cursor:pointer;">
+          View Documents
+        </button>
+      </td>
+    </tr>
+  `).join('');
+
+  // ===== Display Table =====
+  document.getElementById("mainContent").innerHTML = `
+    <h2>Student Records</h2>
+    <div style="overflow:auto; max-height:600px; border:1px solid #ccc; border-radius:8px;">
+      <table style="width:100%; border-collapse:collapse; background:white;">
+        <thead>
+          <tr style="background:#003366; color:white;">
+            <th style="padding:10px; color:darkblue">Name</th>
+            <th style="padding:10px; color:darkblue">Roll No</th>
+            <th style="padding:10px; color:darkblue">Department</th>
+            <th style="padding:10px; color:darkblue">Year</th>
+            <th style="padding:10px; color:darkblue">Status</th>
+            <th style="padding:10px; color:darkblue">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableRows}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal for Documents -->
+    <div id="docModal" style="
+      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+      <div style="background:white; padding:20px; border-radius:8px; width:400px;">
+        <h3 id="modalTitle">Documents</h3>
+        <ul id="docList" style="list-style:none; padding:0; margin-top:10px;"></ul>
+        <button onclick="closeModal()" 
+          style="background:#ff4d4d; color:white; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; margin-top:15px;">
+          Close
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ===== Function to View Documents =====
+function viewDocuments(studentName, documents) {
+  const modal = document.getElementById('docModal');
+  const docList = document.getElementById('docList');
+  const title = document.getElementById('modalTitle');
+
+  title.textContent = `Documents of ${studentName}`;
+  docList.innerHTML = documents.map(doc => `
+    <li style="padding:8px 0; border-bottom:1px solid #ddd;">
+      📄 ${doc}
+      <button onclick="alert('Opening ${doc}')" 
+        style="float:right; background:#28a745; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">
+        Open
+      </button>
+    </li>
+  `).join('');
+
+  modal.style.display = "flex";
+}
+
+// ===== Close Modal =====
+function closeModal() {
+  document.getElementById('docModal').style.display = "none";
+}
+
+
+function showDashboard() {
+  // Remove active class from all links and add to current
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // ======== Dummy Metrics ========
+  const totalStudents = 4582;
+  const verifiedRecords = 3750;
+  const pendingVerifications = 832;
+  const activeClubs = 12;
+
+  // ======== Recent Activities Dummy Data ========
+  const recentActivities = [
+    { time: "08:15 AM", date: "2025-09-12", activity: "John Doe uploaded his semester mark sheet.", type: "Document Upload" },
+    { time: "09:00 AM", date: "2025-09-12", activity: "Priya Sharma registered for Robotics Club orientation.", type: "Club Activity" },
+    { time: "09:30 AM", date: "2025-09-12", activity: "Admin Dr. Rajesh Kumar approved 15 pending student records.", type: "Admin Action" },
+    { time: "10:15 AM", date: "2025-09-12", activity: "Mechanical Engineering Department added a new course on CAD.", type: "Department Update" },
+    { time: "11:00 AM", date: "2025-09-12", activity: "Sports Club announced Inter-College Cricket Tournament schedule.", type: "Sports Event" },
+    { time: "11:30 AM", date: "2025-09-12", activity: "Rahul Kumar uploaded his hostel fee receipt.", type: "Document Upload" },
+    { time: "12:00 PM", date: "2025-09-12", activity: "Drama Club successfully completed their cultural fest.", type: "Club Activity" },
+    { time: "01:30 PM", date: "2025-09-12", activity: "CS Department announced 'AI & ML Workshop' scheduled for 25th September.", type: "Department Update" },
+    { time: "02:15 PM", date: "2025-09-12", activity: "Jane Smith updated her contact information.", type: "Profile Update" },
+    { time: "03:00 PM", date: "2025-09-12", activity: "Admin generated a monthly student performance report.", type: "Report Generation" },
+    { time: "03:45 PM", date: "2025-09-12", activity: "Photography Club uploaded 100 photos from the recent campus event.", type: "Club Activity" },
+    { time: "04:15 PM", date: "2025-09-12", activity: "Rohit Malhotra submitted his final year project report.", type: "Project Submission" },
+    { time: "04:30 PM", date: "2025-09-12", activity: "Library Department updated the list of available e-books.", type: "Library Update" },
+    { time: "05:00 PM", date: "2025-09-12", activity: "Admin revoked access of an inactive student account.", type: "Admin Action" },
+    { time: "05:15 PM", date: "2025-09-12", activity: "Electrical Engineering Dept announced lab schedule changes.", type: "Department Update" },
+    { time: "06:00 PM", date: "2025-09-12", activity: "Club membership renewal started for Robotics and Drama Club.", type: "Club Activity" },
+    { time: "06:30 PM", date: "2025-09-12", activity: "Students received notifications for upcoming semester exams.", type: "Notification" },
+    { time: "07:00 PM", date: "2025-09-12", activity: "Admin finalized next semester's timetable.", type: "Admin Action" }
+  ];
+
+  // ======== Color Coding Based on Type ========
+  const typeColors = {
+    "Document Upload": "#007bff",
+    "Club Activity": "#28a745",
+    "Admin Action": "#ff4d4d",
+    "Department Update": "#ffc107",
+    "Sports Event": "#17a2b8",
+    "Profile Update": "#6c757d",
+    "Report Generation": "#6610f2",
+    "Project Submission": "#20c997",
+    "Library Update": "#fd7e14",
+    "Notification": "#0d6efd"
+  };
+
+  // ======== Build Recent Activities HTML ========
+  let activityList = recentActivities.map(a => `
+    <div class="activity-item" style="border-left: 5px solid ${typeColors[a.type] || '#ccc'}; padding-left: 10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong>${a.time}</strong>
+        <span style="font-size: 12px; color: #666;">${a.date}</span>
+      </div>
+      <p style="margin:5px 0;">${a.activity}</p>
+      <span style="background:${typeColors[a.type] || '#ccc'}; color:white; padding:3px 8px; border-radius:4px; font-size:12px;">
+        ${a.type}
+      </span>
+    </div>
+  `).join('');
+
+  // ======== Update Main Content ========
+  document.getElementById("mainContent").innerHTML = `
+    <h2>University Dashboard</h2>
+
+    <!-- Overview Cards -->
+    <div class="overview">
+      <div class="card">
+        Total Students <br> <strong>${totalStudents}</strong>
+      </div>
+      <div class="card">
+        Verified Records <br> <strong>${verifiedRecords}</strong>
+      </div>
+      <div class="card">
+        Pending Verifications <br> <strong>${pendingVerifications}</strong>
+      </div>
+      <div class="card">
+        Active Clubs <br> <strong>${activeClubs}</strong>
+      </div>
+    </div>
+
+    <!-- Recent Activities Section -->
+    <div class="activity-feed" style="background:white; padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+      <h3 style="margin-bottom:15px; color:#003366;">Recent Activities</h3>
+      ${activityList}
+    </div>
+  `;
+}
+
+
+  
+function showClubs() {
+  // Highlight active nav link
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // Dummy data for clubs
+  let clubs = [
+    {
+      name: "Robotics Club",
+      members: 120,
+      description: "Explore the world of robotics and AI with hands-on projects.",
+      category: "Technology",
+      logo: "🤖"
+    },
+    {
+      name: "Photography Club",
+      members: 85,
+      description: "Capture stunning moments and learn professional photography techniques.",
+      category: "Arts",
+      logo: "📸"
+    },
+    {
+      name: "AeroModelling Club",
+      members: 60,
+      description: "Design, build, and fly model aircraft and drones.",
+      category: "Engineering",
+      logo: "✈️"
+    },
+    {
+      name: "Music Club",
+      members: 95,
+      description: "For all music lovers! Join jam sessions and explore different genres.",
+      category: "Entertainment",
+      logo: "🎵"
+    },
+    {
+      name: "Coding Club",
+      members: 150,
+      description: "Sharpen your coding skills with hackathons and coding challenges.",
+      category: "Technology",
+      logo: "💻"
+    }
+  ];
+
+  // Dummy data for activities
+  let activities = [
+    { text: "Robotics Club hosted a drone flying workshop", time: "2 hours ago" },
+    { text: "Photography Club launched a new photo contest", time: "5 hours ago" },
+    { text: "AeroModelling Club completed a mini aircraft project", time: "1 day ago" },
+    { text: "Music Club organized a live concert event", time: "2 days ago" },
+    { text: "Coding Club conducted a 24-hour hackathon", time: "3 days ago" }
+  ];
+
+  // Club cards
+  let clubList = clubs.map(c => `
+    <div class="club-card">
+      <div class="club-logo">${c.logo}</div>
+      <div class="club-info">
+        <h4>${c.name}</h4>
+        <p>${c.description}</p>
+        <span class="club-category">${c.category}</span>
+        <div class="club-footer">
+          <span class="members">${c.members} Members</span>
+          <button class="join-btn">View more</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Activity feed
+  let activityList = activities.map(a => `
+    <div class="activity-item">
+      <div class="activity-icon">🔥</div>
+      <div class="activity-content">
+        <p>${a.text}</p>
+        <span class="time">${a.time}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Main Content
+  document.getElementById("mainContent").innerHTML = `
+    <div class="clubs-activities-container">
+      <h2 class="section-title">Clubs & Activities</h2>
+      <div class="clubs-section">
+        <h3>Clubs</h3>
+        <div class="club-grid">${clubList}</div>
+      </div>
+      <div class="activities-section">
+        <h3>Recent Activities</h3>
+        <div class="activity-feed">${activityList}</div>
+      </div>
+    </div>
+  `;
+
+  // Add modern styling dynamically
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .clubs-activities-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .section-title {
+      grid-column: span 2;
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    /* Club Cards */
+    .club-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+    }
+
+    .club-card {
+      display: flex;
+      gap: 15px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .club-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .club-logo {
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: #f3f3f3;
+      border-radius: 50%;
+    }
+
+    .club-info h4 {
+      margin: 0;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .club-info p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0;
+    }
+
+    .club-category {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #e0f7fa;
+      color: #00796b;
+      font-size: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .club-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .join-btn {
+      background: #007BFF;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .join-btn:hover {
+      background: #0056b3;
+    }
+
+    /* Activity Feed */
+    .activities-section {
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .activity-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .activity-icon {
+      font-size: 20px;
+      background: #ffe0b2;
+      color: #e65100;
+      padding: 10px;
+      border-radius: 50%;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .activity-content p {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .time {
+      font-size: 12px;
+      color: #777;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .clubs-activities-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+    
+function showDepartments() {
+  // Highlight active nav link
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // Department data
+  const departments = [
+    {
+      name: "Computer Science & Engineering",
+      students: 320,
+      hod: "Dr. A. Sharma",
+      description: "Focuses on algorithms, data structures, AI, ML, and modern software engineering.",
+      icon: "💻"
+    },
+    {
+      name: "Mechanical Engineering",
+      students: 280,
+      hod: "Dr. R. Mehta",
+      description: "Specializes in thermodynamics, robotics, design, and manufacturing systems.",
+      icon: "⚙️"
+    },
+    {
+      name: "Electrical Engineering",
+      students: 250,
+      hod: "Dr. P. Gupta",
+      description: "Covers power systems, electronics, signal processing, and automation.",
+      icon: "🔌"
+    },
+    {
+      name: "Electronics & Communication Engineering",
+      students: 270,
+      hod: "Dr. S. Iyer",
+      description: "Deals with VLSI design, communications, embedded systems, and circuits.",
+      icon: "📡"
+    },
+    {
+      name: "Civil Engineering",
+      students: 230,
+      hod: "Dr. M. Rao",
+      description: "Covers structural design, environmental engineering, and urban planning.",
+      icon: "🏗️"
+    },
+    {
+      name: "Chemical Engineering",
+      students: 180,
+      hod: "Dr. K. Menon",
+      description: "Focuses on process engineering, pharmaceuticals, and biochemical processes.",
+      icon: "🧪"
+    },
+    {
+      name: "Architecture",
+      students: 90,
+      hod: "Prof. L. Fernandez",
+      description: "Blends art, engineering, and design for sustainable infrastructure.",
+      icon: "🏛️"
+    },
+    {
+      name: "Mathematics & Computing",
+      students: 150,
+      hod: "Dr. N. Banerjee",
+      description: "Concentrates on applied math, computational models, and data science.",
+      icon: "📊"
+    },
+    {
+      name: "Aerospace Engineering",
+      students: 120,
+      hod: "Dr. T. Kapoor",
+      description: "Specializes in aircraft, spacecraft, and advanced propulsion systems.",
+      icon: "✈️"
+    },
+    {
+      name: "Biotechnology",
+      students: 100,
+      hod: "Dr. A. Verma",
+      description: "Explores genetic engineering, bioinformatics, and biomedical research.",
+      icon: "🧬"
+    }
+  ];
+
+  // Generate Department Cards
+  let departmentCards = departments.map((dept, index) => `
+    <div class="dept-card">
+      <div class="dept-icon">${dept.icon}</div>
+      <h4>${dept.name}</h4>
+      <p><strong>HOD:</strong> ${dept.hod}</p>
+      <p><strong>Students:</strong> ${dept.students}</p>
+      <button class="view-btn" onclick="viewDepartmentDetails(${index})">View Details</button>
+    </div>
+  `).join('');
+
+  // Insert into main content
+  document.getElementById("mainContent").innerHTML = `
+    <div class="departments-container">
+      <h2 class="section-title">Departments</h2>
+      <p class="subtitle">Explore various departments and their activities:</p>
+      <div class="dept-grid">${departmentCards}</div>
+    </div>
+
+    <!-- Modal -->
+    <div id="deptModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+  `;
+
+  // Inject styling dynamically
+  const style = document.createElement("style");
+  style.innerHTML = `
+    /* Container Styling */
+    .departments-container {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .section-title {
+      font-size: 24px;
+      color: #222;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* Grid layout for departments */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    /* Department Card */
+    .dept-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .dept-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .dept-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .dept-card h4 {
+      margin: 5px 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .dept-card p {
+      margin: 3px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Button */
+    .view-btn {
+      margin-top: 10px;
+      background: #007BFF;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background: #0056b3;
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 400px;
+      max-width: 90%;
+      position: relative;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #777;
+    }
+
+    .close-btn:hover {
+      color: #000;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dept-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Modal Functionality
+  window.viewDepartmentDetails = function(index) {
+    const dept = departments[index];
+    const modal = document.getElementById("deptModal");
+    const modalBody = document.getElementById("modalBody");
+
+    modalBody.innerHTML = `
+      <h3>${dept.icon} ${dept.name}</h3>
+      <p><strong>HOD:</strong> ${dept.hod}</p>
+      <p><strong>Students Enrolled:</strong> ${dept.students}</p>
+      <p>${dept.description}</p>
+      <button onclick="closeModal()" class="view-btn" style="background:#28a745;">Close</button>
+    `;
+
+    modal.style.display = "block";
+  };
+
+  window.closeModal = function() {
+    document.getElementById("deptModal").style.display = "none";
+  };
+}
+
+
+
+   
+function showReports() {
+  // Highlight active nav link
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // Dummy report data
+  const reports = [
+    {
+      name: "Student Report",
+      icon: "👨‍🎓",
+      description: "Detailed data of all students including enrollment, grades, and activities.",
+      lastUpdated: "2025-09-10",
+      entries: 320
+    },
+    {
+      name: "Club Report",
+      icon: "🤝",
+      description: "Summary of club memberships, activities, and events.",
+      lastUpdated: "2025-09-11",
+      entries: 25
+    },
+    {
+      name: "Exam Report",
+      icon: "📝",
+      description: "Exam results and performance analytics of students.",
+      lastUpdated: "2025-09-09",
+      entries: 320
+    },
+    {
+      name: "Attendance Report",
+      icon: "📅",
+      description: "Monthly attendance statistics for all departments.",
+      lastUpdated: "2025-09-12",
+      entries: 320
+    },
+    {
+      name: "Placement Report",
+      icon: "💼",
+      description: "Placement statistics including companies, offers, and packages.",
+      lastUpdated: "2025-09-10",
+      entries: 120
+    }
+  ];
+
+  // Generate report cards
+  let reportCards = reports.map((report, index) => `
+    <div class="report-card">
+      <div class="report-icon">${report.icon}</div>
+      <div class="report-info">
+        <h4>${report.name}</h4>
+        <p>${report.description}</p>
+        <p><strong>Entries:</strong> ${report.entries} | <strong>Last Updated:</strong> ${report.lastUpdated}</p>
+        <button onclick="alert('Downloading ${report.name}...')" class="download-btn">Download</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Insert into main content
+  document.getElementById("mainContent").innerHTML = `
+    <div class="reports-container">
+      <h2 class="section-title">Reports</h2>
+      <p class="subtitle">Download or view various reports related to students and activities.</p>
+
+      <input type="text" id="searchReports" placeholder="Search reports..." onkeyup="filterReports()" class="search-input">
+
+      <div class="report-grid">${reportCards}</div>
+    </div>
+  `;
+
+  // Add styling dynamically
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .reports-container {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 5px;
+      color: #222;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .report-card {
+      display: flex;
+      gap: 15px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .report-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .report-icon {
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: #f3f3f3;
+      border-radius: 50%;
+    }
+
+    .report-info h4 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .report-info p {
+      font-size: 13px;
+      color: #555;
+      margin: 4px 0;
+    }
+
+    .download-btn {
+      margin-top: 8px;
+      background: #007BFF;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Search filter functionality
+  window.filterReports = function() {
+    let input = document.getElementById("searchReports").value.toLowerCase();
+    document.querySelectorAll(".report-card").forEach(card => {
+      const name = card.querySelector("h4").innerText.toLowerCase();
+      card.style.display = name.includes(input) ? "flex" : "none";
+    });
+  }
+}
+
+
+
+function showSettings() {
+  // Highlight active nav link
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // Dummy admin data
+  const admin = {
+    name: "Dr. Rajesh Kumar",
+    role: "University Admin",
+    employeeId: "UADM-1023",
+    email: "rajesh.kumar@university.edu",
+    phone: "+91 98765 43210",
+    profilePic: "https://source.unsplash.com/100x100/?portrait,man"
+  };
+
+  document.getElementById("mainContent").innerHTML = `
+    <div class="settings-container">
+      <h2 class="section-title">Admin Profile & Settings</h2>
+
+      <div class="profile-card">
+        <div class="profile-photo">
+          <img src="${admin.profilePic}" alt="Profile Photo">
+        </div>
+        <div class="profile-info">
+          <h3>${admin.name}</h3>
+          <p class="role">${admin.role}</p>
+
+          <form class="settings-form">
+            <label>Employee ID (Non-editable)</label>
+            <input type="text" value="${admin.employeeId}" disabled>
+
+            <label>Email</label>
+            <input type="email" value="${admin.email}">
+
+            <label>Phone</label>
+            <input type="text" value="${admin.phone}">
+
+            <button type="button" onclick="alert('Settings Updated!')" class="save-btn">Save Changes</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <button onclick="alert('Redirecting to Change Password')" class="action-btn">Change Password</button>
+        <button onclick="alert('Redirecting to University Info Management')" class="action-btn">Manage University Info</button>
+        <button onclick="alert('Redirecting to Activity Logs')" class="action-btn">View Activity Logs</button>
+      </div>
+    </div>
+  `;
+
+  // Add modern styling dynamically
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .settings-container {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .section-title {
+      font-size: 24px;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      display: flex;
+      gap: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .profile-photo img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #007BFF;
+    }
+
+    .profile-info h3 {
+      margin: 0;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .role {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 300px;
+    }
+
+    .settings-form label {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .settings-form input {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .settings-form input:disabled {
+      background: #f0f0f0;
+      color: #777;
+    }
+
+    .save-btn {
+      margin-top: 10px;
+      background: #007BFF;
+      border: none;
+      padding: 8px 12px;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .save-btn:hover {
+      background: #0056b3;
+    }
+
+    /* Quick Actions */
+    .quick-actions h3 {
+      font-size: 18px;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .quick-actions .action-btn {
+      display: block;
+      width: fit-content;
+      margin-bottom: 10px;
+      padding: 8px 14px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .quick-actions .action-btn:hover {
+      background: #1e7e34;
+    }
+
+    @media (max-width: 768px) {
+      .profile-card {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .settings-form {
+        width: 100%;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+
+
+    /* ======== DEFAULT LOAD ======== */
+    document.addEventListener("DOMContentLoaded", function() {
+    showDashboard();
+});
+  </script>
+
+</body>
+</html>

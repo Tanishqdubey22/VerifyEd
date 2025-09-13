@@ -1,0 +1,106 @@
+function showProfile() {
+    setActiveLink("Profile");
+    const main = document.getElementById("mainContent");
+    main.innerHTML = `
+        <h1>Student Profile</h1>
+        <div style="display:flex; gap:30px; margin-top:20px; flex-wrap:wrap;">
+            
+            <!-- Left: Student Photo & Stats -->
+            <div style="flex:1; min-width:250px; display:flex; flex-direction:column; gap:20px;">
+                <div style="background:#ffffff;padding:15px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.15); text-align:center;">
+                    <img src="https://wallpapercave.com/wp/wp3090421.jpg" 
+                        alt="Student Photo" 
+                        style="border-radius:50%; width:150px; height:150px; object-fit:cover; margin-bottom:10px;">
+                    <h3 style="margin:0;">John Doe</h3>
+                    <p style="color:#555; margin:5px 0 0;">3rd Year, CS</p>
+                </div>
+
+                <div style="background:#ffffff;padding:15px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.15);">
+                    <h3 style="margin-top:0; color:#003366;">Profile Stats</h3>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <span><strong>GPA:</strong> 9.1</span>
+                        <span><strong>Completed Credits:</strong> 90</span>
+                        <span><strong>Ongoing Projects:</strong> 3</span>
+                    </div>
+                </div>
+
+                <div style="background:#ffffff;padding:15px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.15); text-align:center;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Putin_with_flag.jpg" 
+                        alt="Putin Photo" 
+                        style="border-radius:50%; width:120px; height:120px; object-fit:cover; margin-bottom:10px;">
+                    <h4 style="margin:0;">Demo: Putin</h4>
+                    <p style="color:#555; margin:5px 0 0;">Fun placeholder</p>
+                </div>
+            </div>
+
+            <!-- Right: Profile Form -->
+            <div style="flex:2; min-width:300px;">
+                <form id="profileForm" style="background-color:#ffffff;padding:25px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15); display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                    
+                    <!-- Editable Fields -->
+                    <div>
+                        <label for="fullName"><strong>Full Name</strong></label><br>
+                        <input type="text" id="fullName" value="John Doe" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label for="branch"><strong>Branch</strong></label><br>
+                        <input type="text" id="branch" value="Computer Science" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label for="college"><strong>College</strong></label><br>
+                        <input type="text" id="college" value="Institute of Technology, City" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label for="year"><strong>Year</strong></label><br>
+                        <input type="text" id="year" value="3rd Year" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label for="email"><strong>Email</strong></label><br>
+                        <input type="email" id="email" value="john.doe@example.com" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label for="phone"><strong>Phone Number</strong></label><br>
+                        <input type="tel" id="phone" value="+91-9876543210" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+
+                    <!-- Non-editable Fields -->
+                    <div>
+                        <label for="aadhar"><strong>Aadhar Number</strong></label><br>
+                        <input type="text" id="aadhar" value="1234-5678-9012" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;background-color:#e9ecef;" readonly>
+                    </div>
+                    <div>
+                        <label for="dob"><strong>Date of Birth</strong></label><br>
+                        <input type="text" id="dob" value="01-Aug-2003" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;background-color:#e9ecef;" readonly>
+                    </div>
+
+                    <!-- Address -->
+                    <div style="grid-column: span 2;">
+                        <label for="address"><strong>Address</strong></label><br>
+                        <textarea id="address" rows="3" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">123, Main Street, City, State, PIN-123456</textarea>
+                    </div>
+
+                    <!-- Extra Links -->
+                    <div>
+                        <label for="linkedin"><strong>LinkedIn</strong></label><br>
+                        <input type="text" id="linkedin" value="https://linkedin.com/in/johndoe" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label for="portfolio"><strong>Portfolio</strong></label><br>
+                        <input type="text" id="portfolio" value="https://johndoe.dev" style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                    </div>
+
+                    <!-- Save Button -->
+                    <div style="grid-column: span 2; display:flex; justify-content:flex-end; margin-top:10px;">
+                        <button type="submit" style="background-color:#003366;color:white;padding:12px 25px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    const profileForm = document.getElementById("profileForm");
+    profileForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        alert("Profile updated successfully!");
+    });
+}

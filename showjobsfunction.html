@@ -1,0 +1,207 @@
+function showJobs() {
+    setActiveLink("Jobs");
+    const main = document.getElementById("mainContent");
+
+    main.innerHTML = `
+        <h1 style="margin-bottom: 20px;">Recommended Jobs & Internships</h1>
+
+        <!-- Search and Filters -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+            <input type="text" placeholder="Search jobs or companies..." 
+                style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc; margin-right:10px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="filter-btn">Internships</button>
+                <button class="filter-btn">Full-Time</button>
+                <button class="filter-btn">Remote</button>
+                <button class="filter-btn">On-Site</button>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:20px;">
+            <!-- Left Main Content -->
+            <div style="flex:3;">
+                
+                <!-- Personalized Job Recommendations -->
+                <section style="margin-bottom:30px;">
+                    <h2>🎯 Jobs Recommended for You</h2>
+                    <div style="display:flex; overflow-x:auto; gap:15px; padding:10px;">
+                        ${Array.from({ length: 6 }).map((_, i) => `
+                            <div class="job-card clickable" onclick="openJobModal('Software Engineer', 'TechCorp Pvt Ltd', 'Work on scalable web applications using latest tech stack. Excellent growth opportunities.', '₹8-12 LPA')">
+                                <img src="https://picsum.photos/80?random=${i + 1}" 
+                                    style="width:60px;height:60px;border-radius:8px;margin-bottom:10px;">
+                                <h3>Software Engineer</h3>
+                                <p><strong>Company:</strong> TechCorp Pvt Ltd</p>
+                                <p><strong>Location:</strong> Remote</p>
+                                <p><span style="color:green;">Recommended: Python Certificate</span></p>
+                                <p><strong>Salary:</strong> ₹8-12 LPA</p>
+                                <button class="apply-btn">Apply Now</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- Trending Jobs -->
+                <section style="margin-bottom:30px;">
+                    <h2>🔥 Trending Jobs</h2>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:15px;">
+                        ${Array.from({ length: 8 }).map((_, i) => `
+                            <div class="job-card clickable" onclick="openJobModal('Frontend Developer', 'InnovateX', 'Build interactive UI components and collaborate with backend teams.', '₹6-9 LPA')">
+                                <img src="https://picsum.photos/80?random=${i + 10}" 
+                                    style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+                                <h4>Frontend Developer</h4>
+                                <p><strong>Company:</strong> InnovateX</p>
+                                <p><strong>Exp:</strong> 0-2 yrs</p>
+                                <button class="apply-btn">Apply</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- Internships Section -->
+                <section style="margin-bottom:30px;">
+                    <h2>📚 Internships</h2>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:15px;">
+                        ${Array.from({ length: 6 }).map((_, i) => `
+                            <div class="job-card clickable" onclick="openJobModal('ML Intern', 'DataWorks', 'Assist in training and optimizing ML models using real-world datasets.', '₹15,000/month')">
+                                <img src="https://picsum.photos/80?random=${i + 20}" 
+                                    style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+                                <h4>ML Intern</h4>
+                                <p><strong>Company:</strong> DataWorks</p>
+                                <p><strong>Stipend:</strong> ₹15,000/month</p>
+                                <button class="apply-btn">Apply</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- Tech News Section -->
+                <section style="margin-bottom:30px;">
+                    <h2>📢 Tech News & Career Insights</h2>
+                    <ul style="list-style:none; padding:0;">
+                        <li class="news-item">
+                            <img src="https://picsum.photos/60?random=30" style="border-radius:8px; margin-right:10px;">
+                            <span><strong>AI Revolution:</strong> 20% of tech jobs may evolve by 2030.</span>
+                        </li>
+                        <li class="news-item">
+                            <img src="https://picsum.photos/60?random=31" style="border-radius:8px; margin-right:10px;">
+                            <span><strong>Cybersecurity Boom:</strong> Top firms hiring security experts worldwide.</span>
+                        </li>
+                        <li class="news-item">
+                            <img src="https://picsum.photos/60?random=32" style="border-radius:8px; margin-right:10px;">
+                            <span><strong>Remote Work:</strong> Cloud-based companies are on the rise.</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Skill Gap Suggestions -->
+                <section>
+                    <h2>🚀 Skills You Should Learn</h2>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <div class="skill-card">Machine Learning <button class="start-btn">Start</button></div>
+                        <div class="skill-card">Cloud Computing <button class="start-btn">Start</button></div>
+                        <div class="skill-card">Cybersecurity <button class="start-btn">Start</button></div>
+                        <div class="skill-card">Blockchain <button class="start-btn">Start</button></div>
+                        <div class="skill-card">UI/UX Design <button class="start-btn">Start</button></div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Side Ads -->
+            <div style="flex:1; display:flex; flex-direction:column; gap:20px;">
+                ${Array.from({ length: 4 }).map((_, i) => `
+                    <div class="ad-card">
+                        <img src="https://picsum.photos/200/150?random=${i + 40}" 
+                             style="width:100%;border-radius:8px;">
+                        <p><strong>Featured Company</strong></p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <!-- Modal for Job Details -->
+        <div id="jobModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); 
+            justify-content:center; align-items:center; z-index:999;">
+            <div style="background:#fff; padding:20px; border-radius:10px; width:400px; position:relative;">
+                <span onclick="closeJobModal()" 
+                    style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;">&times;</span>
+                <h2 id="modalJobTitle"></h2>
+                <p><strong>Company:</strong> <span id="modalCompany"></span></p>
+                <p id="modalDescription"></p>
+                <p><strong>Salary/Stipend:</strong> <span id="modalSalary"></span></p>
+                <button class="apply-btn" style="width:100%; margin-top:10px;">Apply Now</button>
+            </div>
+        </div>
+    `;
+
+    // Styling updates for modern look
+    document.querySelectorAll('.job-card').forEach(card => {
+        card.style.background = '#fff';
+        card.style.padding = '15px';
+        card.style.borderRadius = '12px';
+        card.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+        card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+        card.style.cursor = 'pointer';
+
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-4px)';
+            card.style.boxShadow = '0 6px 18px rgba(0,0,0,0.2)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+        });
+    });
+
+    // Modern Apply button
+    document.querySelectorAll('.apply-btn').forEach(btn => {
+        btn.style.padding = '10px 15px';
+        btn.style.border = 'none';
+        btn.style.borderRadius = '30px';
+        btn.style.background = 'linear-gradient(45deg, #0066cc, #003366)';
+        btn.style.color = '#fff';
+        btn.style.cursor = 'pointer';
+        btn.style.transition = 'background 0.3s ease, transform 0.2s ease';
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = 'linear-gradient(45deg, #003366, #0066cc)';
+            btn.style.transform = 'scale(1.05)';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'linear-gradient(45deg, #0066cc, #003366)';
+            btn.style.transform = 'scale(1)';
+        });
+    });
+
+    // Filter button styles
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.style.padding = '10px 15px';
+        btn.style.border = '1px solid #ccc';
+        btn.style.borderRadius = '20px';
+        btn.style.background = '#f8f8f8';
+        btn.style.cursor = 'pointer';
+        btn.style.transition = 'background 0.2s ease, color 0.2s ease';
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = '#e0e0e0';
+            btn.style.color = '#003366';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = '#f8f8f8';
+            btn.style.color = '#000';
+        });
+    });
+}
+
+// Modal Functions
+function openJobModal(title, company, description, salary) {
+    document.getElementById('modalJobTitle').textContent = title;
+    document.getElementById('modalCompany').textContent = company;
+    document.getElementById('modalDescription').textContent = description;
+    document.getElementById('modalSalary').textContent = salary;
+    document.getElementById('jobModal').style.display = 'flex';
+}
+
+function closeJobModal() {
+    document.getElementById('jobModal').style.display = 'none';
+}
